@@ -14,6 +14,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { UserLoginComponent } from './Components/Login/user-login/user-login.component';
 import { AdminLoginComponent } from './Components/Login/admin-login/admin-login.component';
+import { AfterUserLoginComponent } from './Components/Login/after-user-login/after-user-login.component';
+import { AfterAdminLoginComponent } from './Components/Login/after-admin-login/after-admin-login.component';
 
 const routes: Routes = [
   {path: 'home', component: HomePageComponent},
@@ -25,6 +27,8 @@ const routes: Routes = [
   {path: 'registration', component:RegistrationComponent},
   {path: 'userLogin', component:UserLoginComponent},
   {path: 'adminLogin', component:AdminLoginComponent},
+  {path: 'afterUserLogin', component:AfterUserLoginComponent},
+  {path: 'afterAdminLogin', component:AfterAdminLoginComponent}
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserLoginService } from 'src/app/Services/user-login.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -9,21 +10,33 @@ import { Router } from '@angular/router';
 })
 export class AdminLoginComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userloginServ: UserLoginService) { }
 
   adminLoginForm: any;
   ngOnInit(): void {
     this.adminLoginForm = this.formBuilder.group({
       id: [],
-      username: ['', Validators.required, Validators.minLength(5)],
-      password: ['',Validators.required]
+      primaryEmail: ['', Validators.required],
+      password: ['',Validators.required],
+      formName: ['Admin']
     })
   }
-  get username() {
-    return this.adminLoginForm.get('username');
+  get primaryEmail() {
+    return this.adminLoginForm.get('primaryEmail');
   }
   get password() {
     return this.adminLoginForm.get('password');
   }
 
+
+  onSubmit() {
+
+    this.userloginServ.validateUser(this.adminLoginForm.value)
+      .subscribe(data => {
+        console.log(data)
+        if (data == 0) { alert("success")
+        this.router.navigate(['afterAdminLogin']);   }
+        else { alert("Username or Passord invalid") }        
+      });
+  }
 }

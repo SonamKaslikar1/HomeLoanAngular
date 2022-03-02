@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { getCountries, getStates } from 'country-state-picker';
 import { empty } from 'rxjs';
 import { RegistrationService } from 'src/app/Services/registration.service';
+import { UserLoginService } from 'src/app/Services/user-login.service';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +13,7 @@ import { RegistrationService } from 'src/app/Services/registration.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder,private regservice:RegistrationService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder,private regservice:RegistrationService,private userloginServ: UserLoginService, private router: Router) { }
    submitted: boolean = false;
   contactForm:any;
   countryList : string[] = [] ;
@@ -34,7 +35,8 @@ export class RegistrationComponent implements OnInit {
       country: ['',[Validators.required]],
       state: ['',[Validators.required]],
       loanTenure:['',[Validators.required]],
-      password:['',[Validators.required]]
+      password:['',[Validators.required]],
+      formName:['Registration']
     })
 
   }
@@ -82,16 +84,26 @@ get loanTypeId(){
    
     if(confirm("Are you sure you want register?")){	
     this.contactForm.value.loanTypeId=localStorage.getItem('loanTypeId')
- 
-    debugger
+    
         this.regservice.addUser(this.contactForm.value)          
           .subscribe( data => {
-      debugger
+      
           alert("Application has been submitted successfully !!" );      
             this.router.navigate(['homeloan']);          
           });
-    localStorage.removeItem('loanTypeId')      
+     localStorage.removeItem('loanTypeId')      
       }  
+    }
+
+    onChange(){
+      this.userloginServ.validateUser(this.contactForm.value)
+      .subscribe(data => {
+        console.log(data)
+        if (data != 1) { alert("This email id is already registered. Login to continue.")
+         this.router.navigate(['userLogin']);     
+      }
+              
+      });
     }
 }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserLoginService } from 'src/app/Services/user-login.service';
 
 @Component({
   selector: 'app-user-login',
@@ -9,21 +10,32 @@ import { Router } from '@angular/router';
 })
 export class UserLoginComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userloginServ: UserLoginService) { }
 
   userLoginForm: any;
   ngOnInit(): void {
     this.userLoginForm = this.formBuilder.group({
-      id: [],
-      username: ['', Validators.required, Validators.minLength(5)],
-      password: ['',Validators.required]
+      primaryEmail: ['', Validators.required],
+      password: ['', Validators.required],
+      formName:['Login']
     })
   }
-  get username() {
-    return this.userLoginForm.get('username');
+  get primaryEmail() {
+    return this.userLoginForm.get('primaryEmail');
   }
   get password() {
     return this.userLoginForm.get('password');
+  }
+
+  onSubmit() {
+
+    this.userloginServ.validateUser(this.userLoginForm.value)
+      .subscribe(data => {
+        console.log(data)
+        if (data == 0) { alert("success")
+        this.router.navigate(['afterUserLogin']);   }
+        else { alert("Username or Passord invalid") }        
+      });
   }
 
 }

@@ -15,6 +15,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { UserLoginComponent } from './Components/Login/user-login/user-login.component';
 import { AdminLoginComponent } from './Components/Login/admin-login/admin-login.component';
+import { AfterUserLoginComponent } from './Components/Login/after-user-login/after-user-login.component';
+import { AfterAdminLoginComponent } from './Components/Login/after-admin-login/after-admin-login.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { AdminLoginComponent } from './Components/Login/admin-login/admin-login.
     HomeLoanComponent,
     RegistrationComponent,
     UserLoginComponent,
-    AdminLoginComponent
+    AdminLoginComponent,
+    AfterUserLoginComponent,
+    AfterAdminLoginComponent,
   ],
   imports: [
     BrowserModule,
